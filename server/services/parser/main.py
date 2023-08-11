@@ -38,6 +38,8 @@ class OzoneProductsParser(BaseParser):
             except ValueError:
                 continue
             url = a_tag["href"]
+            img_tag = next(next(next(a_tag.children).children).children)
+            good['image_url'] = img_tag['src']
             good['url'] = url
             id_ = self.ID_PATTERN.findall(url)[0]
 
@@ -46,7 +48,7 @@ class OzoneProductsParser(BaseParser):
             total_span, price_span, discount_span = self.get_children_tags(div_price)
             title_span = next(next(a_info.children).children)
 
-            good['title'] = title_span.text
+            good['name'] = title_span.text
             good['id'] = id_
             price = price_span.text.replace("\u2009", "").replace("₽", "")
             if price and price.isnumeric():
