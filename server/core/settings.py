@@ -1,4 +1,5 @@
 import os
+from _socket import gethostbyname
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -20,6 +21,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    'django_adminlte',
+    'django_adminlte_theme',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "rest_framework",
+    "drf_yasg",
 
     "api",
     "chats",
@@ -67,10 +72,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
+# postgresql_psycopg2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.getenv("DB_NAME"),
+        "HOST": gethostbyname(os.getenv("DB_HOST")),
+        "PORT": os.getenv("DB_PORT"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD")
     }
 }
 
@@ -123,3 +133,46 @@ CELERY_RESULT_BACKEND = REDIS_URL
 
 # Telegram settings
 TOKEN = os.getenv("TOKEN")
+
+
+# requests and errors common logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "rich": {"datefmt": "[%X]"},
+        "file": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "class": "rich.logging.RichHandler",
+            "formatter": "rich",
+            "level": "DEBUG",
+        },
+    },
+    "loggers": {"django": {"handlers": ["console"]}},
+}
+
+
+# sql orm queries logging
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }
