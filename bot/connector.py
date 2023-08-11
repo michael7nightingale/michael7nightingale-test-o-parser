@@ -35,6 +35,6 @@ def post_run_task(n: int, chat_id: str) -> Response:
     return response.status_code, response.json()
 
 
-def get_product(product_id: str, chat_id: str) -> Response:
+def get_product(product_id: str) -> Response:
     response = requests.get(get_url(f"products/{product_id}/"))
     return response.status_code, response.json()
