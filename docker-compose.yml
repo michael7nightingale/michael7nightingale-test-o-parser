@@ -1,0 +1,39 @@
+version: "5.3"
+
+services:
+  django-app:
+    working_dir: ./server
+    build: .
+    command: >
+      sh -c "python manage.py makemigrations
+             python manage.py migrate
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  redis:
+    image: redis:5-alpine
+
+  celery:
+    working_dir: ./server
+    build: .
+    command: celery -A core worker -l info
+    depends_on:
+      - django-app
+      - redis
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_NAME=ozone_parser
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+
+  bot:
+    working_dir: ./bot
+    build: .
+    command: python main.py
+    depends_on:
+      - django-app
