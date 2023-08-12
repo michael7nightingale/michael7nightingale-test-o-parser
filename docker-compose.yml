@@ -2,7 +2,7 @@ version: "5.3"
 
 services:
   django-app:
-    working_dir: ./server
+    working_dir: /server
     build: .
     command: >
       sh -c "python manage.py makemigrations
@@ -17,7 +17,7 @@ services:
     image: redis:5-alpine
 
   celery:
-    working_dir: ./server
+    working_dir: /server
     build: .
     command: celery -A core worker -l info
     depends_on:
@@ -30,13 +30,14 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_DATABASE=quotes
-      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+      - MYSQL_DATABASE=ozone_parser
+      - MYSQL_ROOT_USER=admin
+      - MYSQL_ROOT_PASSWORD=password
     ports:
       - '3306:3306'
 
   bot:
-    working_dir: ./bot
+    working_dir: /bot
     build: .
     command: python main.py
     depends_on:
