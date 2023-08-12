@@ -12,6 +12,7 @@ Frontend is the telegram bot, which notifies you when parsing task is finished.
 - `PostgreSQL`;
 - `bs4`;
 - `aiogram`;
+- `django-adminlte2`;
 
 
 <h2 align='center'>Project structure</h2>
@@ -25,7 +26,8 @@ Frontend is the telegram bot, which notifies you when parsing task is finished.
 
 - bot: telegram bot application;
   - main.py: bot entry point;
-  - bot.py: bot handlers;
+  - handlers.py: bot handlers;
+  - keyboards.py: bot keyboards factories;
   - parsers.py: response content parsers for messages;
   - connector.py: requests api functions;
 
