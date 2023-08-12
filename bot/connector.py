@@ -1,3 +1,5 @@
+from socket import gethostbyname
+
 import requests
 import os
 
@@ -5,7 +7,7 @@ import os
 Response = tuple[int, str | dict | list]
 
 # base url to send requests
-host_url = os.getenv("HOST_URL")
+host_url = os.getenv("HOST_URL").replace("localhost", gethostbyname("localhost"))
 
 
 def get_url(url: str) -> str:

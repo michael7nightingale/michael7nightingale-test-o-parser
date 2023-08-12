@@ -24,10 +24,10 @@ class Product(models.Model):
         "ID",
         primary_key=True,
         unique=True,
-        max_length=200
+        max_length=255
     )
-    url = models.URLField("Product URL")
-    image_url = models.URLField("Image URL")
+    url = models.TextField("Product URL")
+    image_url = models.TextField("Image URL")
     name = models.CharField("Title", max_length=255)
     price = models.PositiveIntegerField("Price")
     discount = models.PositiveIntegerField("Discount", default=0)

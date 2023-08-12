@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # postgresql_psycopg2
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME"),
         "HOST": gethostbyname(os.getenv("DB_HOST")),
         "PORT": os.getenv("DB_PORT"),

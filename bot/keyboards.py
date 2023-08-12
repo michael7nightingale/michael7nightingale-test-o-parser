@@ -9,6 +9,4 @@ def build_menu_keyboard() -> ReplyKeyboardMarkup:
     keyboard.add(button_2)
     button_3 = KeyboardButton("Парсинг")
     keyboard.add(button_3)
-    button_4 = KeyboardButton("Скачать")
-    keyboard.add(button_4)
     return keyboard

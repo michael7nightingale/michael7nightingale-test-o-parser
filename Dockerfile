@@ -5,11 +5,12 @@ COPY server ./server
 COPY dev.env ./dev.env
 COPY requirements.txt requirements.txt
 
-RUN apt-get update
-RUN apt-get install -y python3.11-dev
+RUN apt update
+RUN apt-get install -y wget sudo
+RUN wget -nc https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN sudo apt install -y -f ./google-chrome-stable_current_amd64.deb
 
-RUN pip install mysql\
-    && pip install --upgrade pip\
-    && pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip install pyyaml
+RUN pip install -r requirements.txt --default-timeout=700
 
 EXPOSE 8000

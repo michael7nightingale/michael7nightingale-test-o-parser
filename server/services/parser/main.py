@@ -93,7 +93,7 @@ class OzoneProductsParser(BaseParser):
             goods_list_dev = self.find_goods_list_tag(soup)
             goods = self.get_goods(goods_list_dev)
             return_ = goods
-        except Exception:
+        except Exception as e:
             return_ = iter([{}])
         if driver is not None:
             driver.close()
