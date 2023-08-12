@@ -25,11 +25,15 @@ services:
       - redis
 
   db:
-    image: postgres:15-alpine
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
     environment:
-      - POSTGRES_NAME=ozone_parser
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
+      - MYSQL_DATABASE=quotes
+      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+    ports:
+      - '3306:3306'
 
   bot:
     working_dir: ./bot
