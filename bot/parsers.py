@@ -3,7 +3,7 @@ import csv
 from tempfile import TemporaryFile
 
 
-def parse_products_list(products_list: list[dict]) -> str:
+def parse_products_list(products_list: list[dict], chat_id: str) -> str:
     """Get string response function of the list of products json response."""
     if not products_list:
         return "There is not parsed products."
@@ -19,24 +19,12 @@ def parse_products_list(products_list: list[dict]) -> str:
 
             if number >= 4:
                 message_text = (
-                    f"Sorry, list is too long. You can watch it here: http://localhost:8000/api/v1/products/"
-                    "\nor type /download to get .csv file."
+                    f"Sorry, list is too long. You can watch it here: http://localhost:8000/api/v1/products?chat={chat_id}"
                 )
                 yield message_text
                 return
 
     return "\n\n".join(get_strings_raw_gen())
-
-
-def parse_products_list_download(products_list: list[dict]):
-    if not products_list:
-        yield "There is not products to download."
-    file = TemporaryFile("w")
-    fieldnames = products_list[0].keys()
-    dict_writer = csv.DictWriter(file, fieldnames=fieldnames)
-    dict_writer.writeheader()
-    dict_writer.writerows(products_list)
-    yield file
 
 
 def parse_product(product: dict) -> str:

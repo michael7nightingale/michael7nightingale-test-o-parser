@@ -51,24 +51,10 @@ async def good_list(message: types.Message):
     """Good list handler. Get the last products from the last parsing task."""
     status, products = get_products(message.chat.id)
     if status == 200:
-        response_text = parse_products_list(products)
+        response_text = parse_products_list(products, message.chat.id)
     else:
         response_text = products
     await message.answer(response_text)
-
-
-@dp.message_handler(Text(equals="Скачать"))
-async def good_list_download(message: types.Message):
-    """Good list download handler. Get the last products from the last parsing task."""
-    status, products = get_products(message.chat.id)
-    if status == 200:
-        response_text = next(parse_products_list_download(products))
-    else:
-        response_text = products
-    if products and status == 200:
-        await message.answer_document(response_text)
-    else:
-        await message.answer(response_text)
 
 
 @dp.message_handler(Text(equals="Товар"))
