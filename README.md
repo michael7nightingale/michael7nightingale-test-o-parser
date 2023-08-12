@@ -31,6 +31,7 @@ Frontend is the telegram bot, which notifies you when parsing task is finished.
   - parsers.py: response content parsers for messages;
   - connector.py: requests api functions;
 
+- screenfetch: folder with screenshots ot the custom administration service as asked; 
 
 
 <h2 align='center'>Running</h2>
