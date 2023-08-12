@@ -2,7 +2,7 @@ import asyncio
 from dotenv import load_dotenv
 load_dotenv('../dev.env')
 
-from bot import serve_forever
+from handlers import serve_forever
 
 
 if __name__ == "__main__":

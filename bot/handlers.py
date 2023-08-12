@@ -5,7 +5,8 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 import os
 from connector import post_new_chat, get_products, post_run_task, get_product
-from parsers import parse_products_list, parse_product, parse_products_list_download
+from keyboards import build_menu_keyboard
+from parsers import parse_products_list, parse_product
 
 
 # bot instance and configurations
@@ -23,27 +24,22 @@ class States(StatesGroup):
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     """Start handler to register new chat_id."""
-    keyboard = types.ReplyKeyboardMarkup()
-    button_1 = types.KeyboardButton("Список товаров")
-    keyboard.add(button_1)
-    button_2 = types.KeyboardButton("Товар")
-    keyboard.add(button_2)
-    button_3 = types.KeyboardButton("Парсинг")
-    keyboard.add(button_3)
-    button_4 = types.KeyboardButton("Скачать")
-    keyboard.add(button_4)
-    await register(message)
+    reply_markup = build_menu_keyboard()
+    await register(message, reply_markup=reply_markup)
 
 
 @dp.message_handler(Text(equals="Регистрация"))
-async def register(message: types.Message):
+async def register(message: types.Message, reply_markup=None):
     """Register handler to register new chat_id."""
     status, response = post_new_chat(message.chat.id)
     if status == 200:
         response_text = "Hello!"
     else:
         response_text = "You have already started bot or something went wrong with the request."
-    await message.answer(response_text)
+    if reply_markup:
+        await message.answer(response_text, reply_markup=reply_markup)
+    else:
+        await message.answer(response_text)
 
 
 @dp.message_handler(Text(equals="Список товаров"))
